@@ -4,7 +4,7 @@
 	"description": "node starter app",
 	"main": "index.js",
 	"scripts": {
-		"test": "./node_modules/.bin/jasmine-node ./test/spec",
+		"test": "./node_modules/.bin/jasmine-node ./test/spec --verbose",
 		"start": "node ./app/node_server.js"
 	},
 	"author": "Kenneth Massada",

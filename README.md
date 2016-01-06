@@ -24,7 +24,8 @@ npm start
 ```
 
 ## Jasmine test local
-mkdir -p test/spec
+set directories`mkdir -p test/spec`
+
 create [test/spect/test.js](https://gist.github.com/kmassada/1bc95a11ba49473e59e3)
 
 add jasmine-node
@@ -60,4 +61,7 @@ now bind karma to jasmine
 yo karma --test-framework=jasmine
 ```
 
-**while server is running** `karma start`
+**while server is running**
+```
+karma start
+```

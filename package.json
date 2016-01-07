@@ -4,7 +4,7 @@
 	"description": "node starter app",
 	"main": "index.js",
 	"scripts": {
-		"test": "./node_modules/.bin/jasmine-node ./test/spec --verbose",
+		"test": "./node_modules/.bin/mocha ./test/spec --verbose",
 		"start": "node ./app/node_server.js"
 	},
 	"author": "Kenneth Massada",
@@ -15,14 +15,9 @@
 		"request": "^2.67.0"
 	},
 	"devDependencies": {
-		"grunt": "^0.4.5",
-		"grunt-karma": "*",
-		"jasmine-core": "^2.4.1",
-		"jasmine-node": "^1.14.5",
-		"karma": "^0.13.19",
-		"karma-jasmine": "^0.3.6",
-		"karma-phantomjs-launcher": "^0.2.3",
-		"phantomjs": "^1.9.19"
+		"chai": "^3.4.1",
+		"mocha": "^2.3.4",
+		"superagent": "^1.6.1"
 	},
 	"repository": {
 		"type": "git",

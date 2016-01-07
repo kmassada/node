@@ -1,7 +1,6 @@
-  describe('Give it some context', function () {
-    describe('maybe a bit more context here', function () {
-      it('should run here few assertions', function () {
-        expect(true).toBe(true);
-      });
-    });
+var assert = require('assert');
+describe('String#split', function(){
+  it('should return an array', function(){
+    assert(Array.isArray('a,b,c'.split(',')));
   });
+});

@@ -30462,38 +30462,40 @@ function extend() {
 }
 
 },{}],163:[function(require,module,exports){
-exports.generateHelloWorld = function(number) {
-  var result = [];
+exports.generateHelloWorld = function (number) {
+    'use strict';
+    var result = [];
 
-  for(var i=0; i < number; i++) {
-    result.push('Hello World');
-  }
+    for (var i = 0; i < number; i += 1) {
+        result.push('Hello World');
+    }
 
-  return result;
+    return result;
 };
 
 },{}],164:[function(require,module,exports){
 var generator = require('./generator');
-var express   = require('express');
+var express = require('express');
 var bodyParser = require('body-parser');
 
 var app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
 
 app.get('/', function getHome(req, res) {
-  var number = req.query.number;
-  var helloWorldArray = generator.generateHelloWorld(number);
+    'use strict';
+    var number = req.query.number;
+    if (!number) {
+        number = 0;
+    }
+    var helloWorldArray = generator.generateHelloWorld(number);
 
-  res.status(200).send(helloWorldArray);
+    res.status(200).send(helloWorldArray);
 });
 
-var server = app.listen(3222, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-});
+app.listen(3222);
 
 },{"./generator":163,"body-parser":165,"express":215}],165:[function(require,module,exports){
 /*!

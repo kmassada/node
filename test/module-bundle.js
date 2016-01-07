@@ -30466,7 +30466,7 @@ exports.generateHelloWorld = function(number) {
   var result = [];
 
   for(var i=0; i < number; i++) {
-    result.push("Hello World");
+    result.push('Hello World');
   }
 
   return result;
@@ -30483,9 +30483,9 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
-app.get("/", function(req, res) {
+app.get('/', function getHome(req, res) {
   var number = req.query.number;
-  var helloWorldArray = generator.generateHelloWorld(number?number:0);
+  var helloWorldArray = generator.generateHelloWorld(number);
 
   res.status(200).send(helloWorldArray);
 });

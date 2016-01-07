@@ -95,9 +95,10 @@ now we open the file in a browser `open test/index.html` and watch the tests pas
 
 install karma requirements
 ```
-sudo npm install -g karma
+sudo npm install -g karma karma-cli
 sudo npm install -g generator-karma
-npm install grunt karma pahntomjs jasmine-core --save-dev
+sudo npm install -g phantomjs
+npm install grunt karma phantomjs jasmine-core karma-jasmine --save-dev
 ```
 
 now bind karma to jasmine

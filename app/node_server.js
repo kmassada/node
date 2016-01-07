@@ -8,7 +8,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
-app.get("/", function(req, res) {
+app.get('/', function getHome(req, res) {
   var number = req.query.number;
   var helloWorldArray = generator.generateHelloWorld(number?number:0);
 

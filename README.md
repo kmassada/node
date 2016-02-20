@@ -56,3 +56,14 @@ introduce the following packages to setup jshint and nodemon auto restart server
 ```
 npm install --save-dev gulp gulp-nodemon jshint gulp-jscs gulp-jshint jshint-stylish
 ```
+## parser
+TODO
+
+## mongoose
+npm install mongoose --save-dev
+var mongoose   = require('mongoose');
+
+Using mongoose we create a connection to the database,
+`mongoose.connect(uri)`
+
+http://mongoosejs.com/docs/guide.html guides us on what to do once connection is live. 

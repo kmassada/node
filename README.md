@@ -49,3 +49,10 @@ add npm script to package.json for jasmine node to test
 
 
 run `npm test`
+
+## gulp
+introduce the following packages to setup jshint and nodemon auto restart server on file changes
+
+```
+npm install --save-dev gulp gulp-nodemon jshint gulp-jscs gulp-jshint jshint-stylish
+```

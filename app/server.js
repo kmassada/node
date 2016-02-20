@@ -21,6 +21,8 @@ app.use(function timeLog(req, res, next) {
 
 app.use('/', router);
 
+app.use(apiPrefix + '/venues', require('./routes/venueRoutes'));
+
 // Normal-routes
 router.get('/', function(req, res) {
   res.json({message: 'API'});

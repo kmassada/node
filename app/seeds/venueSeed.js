@@ -8,7 +8,7 @@ var newVenue = new Venue({
   category: 'Parks and Recs',
 });
 
-Venue.find({name: 'Patterson Park'}, function(err, venue) {
+Venue.find(newVenue, function(err, venue) {
   if (err) {
     throw err;
   }
@@ -17,9 +17,9 @@ Venue.find({name: 'Patterson Park'}, function(err, venue) {
     newVenue.save(function(err) {
       if (err) {
         console.log(err);
-        throw err;
+      }else {
+        console.log('Venue created!');
       }
-      console.log('Venue created!');
     });
   }
 });
@@ -29,7 +29,8 @@ Venue.find({}, function(err, venues) {
   if (err) {
     console.log(err);
     throw err;
+  } else {
+    // Object of all the venues
+    console.log(venues);
   }
-  // Object of all the venues
-  console.log(venues);
 });

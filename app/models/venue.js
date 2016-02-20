@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var venueSchema = new Schema({
-  name: {type: String, required: true},
+  name: {type: String, required: true, unique: true},
   location: {type: String, required: true},
   category: String,
 });

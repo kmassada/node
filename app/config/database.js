@@ -13,7 +13,8 @@ var databaseFunction = function databaseFunction(uri) {
   db.on('error', console.error);
   db.once('open', function() {
     console.log ('Once: ' + uri);
-    require('../seeds/venuesSeed');
+    require('../seeds/venueSeed');
+    require('../seeds/userSeed');
   });
   return db;
 };

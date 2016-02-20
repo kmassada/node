@@ -11,12 +11,5 @@ describe('Hello World Server', function() {
       });
     });
 
-    it('returns Hello World array', function(done) {
-      http.get('http://localhost:3222?number=3').end(function(err, res) {
-        expect(res.body).to.eql(['Hello World', 'Hello World', 'Hello World']);
-        done();
-      });
-    });
-
   });
 });

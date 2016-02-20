@@ -15,7 +15,7 @@ gulp.task('style', function() {
         .pipe(jscs.reporter());
 });
 
-gulp.task('serve', ['style'], function() {
+gulp.task('serve', [], function() {
   var options = {
     script: 'app/server.js',
     delayTime: 1,

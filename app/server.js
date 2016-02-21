@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 
 var app = express();
 var port = process.env.PORT || 3222;
@@ -7,6 +8,9 @@ var uri = process.env.MONGODB_URI || 'mongodb://localhost/nunodeserver';
 
 require('./config/parser')(app);
 require('./config/database')(uri);
+
+// CORS
+app.use(cors());
 
 // Get an instance of the express Router
 var router = express.Router();

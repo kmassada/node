@@ -66,4 +66,13 @@ var mongoose   = require('mongoose');
 Using mongoose we create a connection to the database,
 `mongoose.connect(uri)`
 
-http://mongoosejs.com/docs/guide.html guides us on what to do once connection is live. 
+http://mongoosejs.com/docs/guide.html guides us on what to do once connection is live.
+
+## CORS
+we enable cross origin requests from our angular ui app
+
+```
+var cors = require('cors');
+// CORS
+app.use(cors());
+```

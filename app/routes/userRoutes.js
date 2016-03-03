@@ -19,9 +19,12 @@ userRouter.route('/')
       // Save the user and check for errors
       newUser.save(function(err) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false , message: err});
         }
-        return res.json({message: 'Object created!'});
+        return res.json({
+          success: true,
+          message: 'Object created!',
+        });
       });
     })
 
@@ -29,7 +32,7 @@ userRouter.route('/')
     .get(function(req, res) {
       User.find(function(err, users) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false , message: err});
         }
         return res.json(users);
       });
@@ -41,10 +44,13 @@ userRouter.route('/:userId')
     .get(function(req, res) {
       User.findById(req.params.userId, function(err, user) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false , message: err});
         }
         if (!user) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
         return res.json(user);
       });
@@ -54,18 +60,24 @@ userRouter.route('/:userId')
     .delete(function(req, res) {
       User.findById(req.params.userId, function(err, user) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false , message: err});
         }
         if (!user) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
 
         // Delete item
         user.remove(function(err) {
           if (err) {
-            return res.json(err);
+            return res.json({success: false , message: err});
           }
-          return res.json({message: 'Object deleted!'});
+          return res.json({
+            success: true,
+            message: 'Object deleted!',
+          });
         });
       });
     })
@@ -75,10 +87,13 @@ userRouter.route('/:userId')
       // Use our user model to find the user we want
       User.findById(req.params.userId, function(err, user) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false , message: err});
         }
         if (!user) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
         // Update the users info
         user.email = req.body.email ?  req.body.email :  user.email;
@@ -91,9 +106,12 @@ userRouter.route('/:userId')
         // Save the user
         user.save(function(err) {
           if (err) {
-            return res.json(err);
+            return res.json({success: false , message: err});
           }
-          return res.json({message: 'Object updated!'});
+          return res.json({
+            success: true,
+            message: 'Object updated!',
+          });
         });
       });
     });

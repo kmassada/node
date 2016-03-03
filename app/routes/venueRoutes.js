@@ -18,9 +18,12 @@ venueRouter.route('/')
       // Save the venue and check for errors
       newVenue.save(function(err) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false, message: err});
         }
-        return res.json({message: 'Object created!'});
+        return res.json({
+          success: true,
+          message: 'Object created!',
+        });
       });
     })
 
@@ -28,7 +31,7 @@ venueRouter.route('/')
     .get(function(req, res) {
       Venue.find(function(err, venues) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false, message: err});
         }
         return res.json(venues);
       });
@@ -40,10 +43,13 @@ venueRouter.route('/:venueId')
     .get(function(req, res) {
       Venue.findById(req.params.venueId, function(err, venue) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false, message: err});
         }
         if (!venue) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
         return res.json(venue);
       });
@@ -53,18 +59,24 @@ venueRouter.route('/:venueId')
     .delete(function(req, res) {
       Venue.findById(req.params.venueId, function(err, venue) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false, message: err});
         }
         if (!venue) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
 
         // Delete item
         venue.remove(function(err) {
           if (err) {
-            return res.json(err);
+            return res.json({success: false, message: err});
           }
-          return res.json({message: 'Object deleted!'});
+          return res.json({
+            success: true,
+            message: 'Object deleted!',
+          });
         });
       });
     })
@@ -74,10 +86,13 @@ venueRouter.route('/:venueId')
       // Use our venue model to find the venue we want
       Venue.findById(req.params.venueId, function(err, venue) {
         if (err) {
-          return res.json(err);
+          return res.json({success: false, message: err});
         }
         if (!venue) {
-          return res.json({error: 'Object not found'});
+          return res.json({
+            success: false,
+            message: 'Object not found',
+          });
         }
         // Update the venues info
         venue.name = req.body.name ?  req.body.name :  venue.name;
@@ -89,9 +104,12 @@ venueRouter.route('/:venueId')
         // Save the venue
         venue.save(function(err) {
           if (err) {
-            return res.json(err);
+            return res.json({success: false, message: err});
           }
-          return res.json({message: 'Object updated!'});
+          return res.json({
+            success: true,
+            message: 'Object updated!',
+          });
         });
       });
     });

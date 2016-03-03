@@ -18,6 +18,7 @@ var router = express.Router();
 // Catch-all
 app.use(function timeLog(req, res, next) {
   console.log('Location: ', req.url);
+  console.log('Data: ', req.body);
   console.log('Method: ', req.method);
   console.log('Time: ', Date.now());
   next();

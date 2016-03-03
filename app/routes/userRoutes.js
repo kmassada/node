@@ -99,7 +99,7 @@ userRouter.route('/:userId')
         user.email = req.body.email ?  req.body.email :  user.email;
         user.password = req.body.password ?  req.body.password :  user.password;
         user.firtName = req.body.firtName ?  req.body.firtName :  user.firtName;
-        user.lastNmae = req.body.lastNmae ?  req.body.lastNmae :  user.lastNmae;
+        user.lastName = req.body.lastName ?  req.body.lastName :  user.lastName;
 
         console.log(user);
 

@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "./node_modules/.bin/mocha ./test/spec --verbose",
-		"start": "node ./app/node.js"
+		"start": "node ./app/server.js"
 	},
 	"author": "Kenneth Massada",
 	"license": "ISC",

@@ -76,3 +76,14 @@ var cors = require('cors');
 // CORS
 app.use(cors());
 ```
+
+## JWT
+
+npm install morgan jsonwebtoken --save
+
+create a secret file at app/config/keys.json
+```
+{
+	"secret": "vswSJrHvNxWxfdj7dvhbQjsBaLq6LrjVkSYKdTodhBzvpDefMe",
+}
+```

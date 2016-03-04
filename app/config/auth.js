@@ -1,6 +1,6 @@
 var jwt    = require('jsonwebtoken');
 var User   = require('../models/user');
-var keys = require('../config/keys');
+var keys = {secret: 'random sauce'};
 
 var requireAuthentication = function requireAuthentication(req, res, next) {
 

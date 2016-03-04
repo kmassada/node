@@ -3,7 +3,7 @@ var authRouter = express.Router();
 var bcrypt = require('bcrypt-nodejs');
 var jwt    = require('jsonwebtoken');
 var User = require('../models/user');
-var keys = require('../config/keys') || {secret: 'random sauce'};
+var keys = {secret: 'random sauce'};
 
 authRouter.route('/')
 

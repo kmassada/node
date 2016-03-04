@@ -5,10 +5,11 @@ var morgan = require('morgan');
 var app = express();
 var port = process.env.PORT || 3222;
 var apiPrefix = process.env.APP_API_VERSION || '/api/v1';
-var uri = process.env.MONGOLAB_URI || 'mongodb://localhost/nunodeserver';
+var uri = process.env.MONGO_URI || 'mongodb://localhost/nunodeserver';
 
 require('./config/parser')(app);
 require('./config/database')(uri);
+require('./config/passport')(app);
 
 // CORS
 app.use(cors());

@@ -12,12 +12,17 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
+    "chai": "^3.5.0",
     "cookie-parser": "^1.4.1",
     "cors": "^2.7.1",
-    "express": "^4.13.3",
+    "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "mongoose": "^4.4.4",
-    "request": "^2.67.0"
+    "gulp": "^3.9.1",
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5",
+    "mongoose": "^4.4.5",
+    "request": "^2.69.0",
+    "superagent": "^1.7.2"
   },
   "devDependencies": {
     "chai": "^3.4.1",

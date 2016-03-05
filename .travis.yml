@@ -20,7 +20,7 @@ before_script:
   - npm install -g jshint
   - npm install -g nodemon
 script:
-  - node app/server.js
+  - node app/server.js &
   - npm test
 
 # Customize when the notification emails are sent.

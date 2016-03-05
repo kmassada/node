@@ -3,7 +3,7 @@ var authRouter = express.Router();
 var bcrypt = require('bcrypt-nodejs');
 var jwt    = require('jsonwebtoken');
 var User = require('../models/user');
-var keys = {secret: 'random sauce'};
+var secret = process.env.SECRET;
 
 authRouter.route('/')
 
@@ -31,7 +31,7 @@ authRouter.route('/')
 
             // If user is found and password is right
             // create a token
-            var token = jwt.sign(user, keys.secret, {
+            var token = jwt.sign(user, secret, {
               expiresInSeconds: 43200, // Expires in 24 hours
             });
 

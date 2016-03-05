@@ -18,7 +18,6 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
     function(token, refreshToken, profile, done) {
       var findOrCreateUser = function() {
         User.findOne({ 'twitter.id': profile.id }, function(err, user) {
-
           // If there is an error, stop everything and return that
           // ie an error connecting to the database
           if (err) {
@@ -29,26 +28,35 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
           if (user) {
             return done(null, user); // User found, return that user
           }
-          // If there is no user, create them
-          var newUser                 = new User();
 
-          // Set all of the user data that we need
-          newUser.twitter.id          = profile.id;
-          newUser.twitter.token       = token;
-          newUser.twitter.username    = profile.username;
-          newUser.twitter.displayName = profile.displayName;
+          // If there is no user found with that facebook id, create them
+          var thisUser = new User();
+          var twitterName = profile.displayName;
 
-          // Save our user into the database
-          newUser.save(function(err) {
-            if (err) {
-              throw err;
+          User.findOne({name:  twitterName}, function(err, user) {
+            if (user) {
+              thisUser = user;
             }
-            return done(null, newUser);
+
+            // Set all of the twitter information in our user model
+            console.log(profile);
+            // Set all of the user data that we need
+            thisUser.twitter.id          = profile.id;
+            thisUser.twitter.token       = token;
+            thisUser.twitter.username    = profile.username;
+            thisUser.twitter.displayName = profile.displayName;
+
+            // Save our user to the database
+            thisUser.save(function(err) {
+              if (err) {
+                throw err;
+              }
+            });
+
+            // If successful, return the new user
+            return done(null, thisUser);
           });
-
         });
-
-
       };
       // Delay the execution of findOrCreateUser and execute
       // the method in the next tick of the event loop

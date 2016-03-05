@@ -6,49 +6,57 @@ var User             = require('../../models/user');
 // FACEBOOK ================================================================
 // =========================================================================
 
+
 var passportFacebookFunction = function passportFacebookFunction(app) {
   passport.use(new FacebookStrategy({
       // Pull in our app id and secret
       clientID: process.env.FACEBOOKAUTH_CLIENTID,
       clientSecret: process.env.FACEBOOKAUTH_CLIENTSECRET,
       callbackURL: process.env.FACEBOOKAUTH_CALLBACKURL,
+      profileFields: ['id', 'displayName', 'photos', 'email'],
     },
 
     // Facebook will send back the token and profile
     function(token, refreshToken, profile, done) {
       var findOrCreateUser = function() {
-
-        // Find the user in the database based on their facebook id
         User.findOne({ 'facebook.id': profile.id }, function(err, user) {
-
           // If there is an error, stop everything and return that
           // ie an error connecting to the database
           if (err) {
             return done(err);
           }
 
-          // If the user is found, then log them in
+          // If the user is found then log them in
           if (user) {
             return done(null, user); // User found, return that user
           }
+
           // If there is no user found with that facebook id, create them
-          var newUser = new User();
+          var thisUser = new User();
+          var facebookEmail = profile.emails[0].value;
 
-          // Set all of the facebook information in our user model
-          newUser.facebook.id    = profile.id; // Set the users facebook id
-          newUser.facebook.token = token; // We will save the token that facebook provides to the user
-          newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // Look at the passport user profile to see how names are returned
-          newUser.facebook.email = profile.emails[0].value; // Facebook can return multiple emails so we'll take the first
+          User.findOne({email:  facebookEmail}, function(err, user) {
+            if (user) {
+              thisUser = user;
+            }
 
-          // Save our user to the database
-          newUser.save(function(err) {
+            // Set all of the facebook information in our user model
+            console.log(profile);
+            thisUser.facebook.id    = profile.id;
+            thisUser.facebook.token = token;
+            thisUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+            thisUser.facebook.email = facebookEmail;
+
+            // Save our user to the database
+            thisUser.save(function(err) {
               if (err) {
                 throw err;
               }
-
-              // If successful, return the new user
-              return done(null, newUser);
             });
+
+            // If successful, return the new user
+            return done(null, thisUser);
+          });
         });
       };
       // Delay the execution of findOrCreateUser and execute

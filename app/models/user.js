@@ -9,6 +9,18 @@ var userSchema = new Schema({
   email: {type: String, unique: true},
   password: {type: String},
   admin: Boolean,
+  facebook: {
+    id: Number,
+    token: String,
+    name: String,
+    email: String,
+  },
+  twitter: {
+    id: Number,
+    token: String,
+    username: String,
+    displayName: String,
+  },
 });
 
 // Generating a hash

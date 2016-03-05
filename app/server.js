@@ -1,6 +1,7 @@
 var express = require('express');
 var cors = require('cors');
 var morgan = require('morgan');
+var dotenv = require('dotenv').config({silent: true});
 
 var app = express();
 var port = process.env.PORT || 3222;

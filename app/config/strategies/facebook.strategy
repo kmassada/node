@@ -1,7 +1,6 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User             = require('../../models/user');
-var socialAuth       = require('../keys.social');
 
 // =========================================================================
 // FACEBOOK ================================================================
@@ -10,9 +9,9 @@ var socialAuth       = require('../keys.social');
 var passportFacebookFunction = function passportFacebookFunction(app) {
   passport.use(new FacebookStrategy({
       // Pull in our app id and secret
-      clientID: socialAuth.facebookAuth.clientID,
-      clientSecret: socialAuth.facebookAuth.clientSecret,
-      callbackURL: socialAuth.facebookAuth.callbackURL,
+      clientID: process.env.FACEBOOKAUTH_CLIENTID,
+      clientSecret: process.env.FACEBOOKAUTH_CLIENTSECRET,
+      callbackURL: process.env.FACEBOOKAUTH_CALLBACKURL,
     },
 
     // Facebook will send back the token and profile

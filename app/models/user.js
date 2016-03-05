@@ -5,6 +5,7 @@ var bcrypt       = require('bcrypt-nodejs');
 var userSchema = new Schema({
   firstName: String,
   lastName: String,
+  fullName: String,
   email: {type: String, unique: true},
   password: {type: String},
   admin: Boolean,
@@ -28,6 +29,9 @@ userSchema.pre('save', function(next) {
   }
   // Override the cleartext password with the hashed one
   user.password = user.generateHash(user.password);
+
+  // Temp solution until twitter gives me email perms
+  user.fullName = user.firstName + user.lastName;
   next();
 });
 

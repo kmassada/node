@@ -9,7 +9,7 @@ services:
 
 # ENV variables
 env:
-  - SECRET=what?lol
+  - NOWAY=what?lol
 
 # Commands
 before_script:

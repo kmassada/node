@@ -1,7 +1,6 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var User             = require('../../models/user');
-var socialAuth       = require('../keys.social');
 
 // =========================================================================
 // TWITTER =================================================================
@@ -10,9 +9,9 @@ var socialAuth       = require('../keys.social');
 
 var passportFacebookFunction = function passportFacebookFunction(app) {
   passport.use(new TwitterStrategy({
-    consumerKey: socialAuth.twitterAuth.consumerKey,
-    consumerSecret: socialAuth.twitterAuth.consumerSecret,
-    callbackURL: socialAuth.twitterAuth.callbackURL,
+    consumerKey: process.env.TWITTERAUTH_CONSUMERKEY,
+    consumerSecret: process.env.TWITTERAUTH_CONSUMERSECRET,
+    callbackURL: process.env.TWITTERAUTH_CALLBACKURL,
   },
 
     // Facebook will send back the token and profile

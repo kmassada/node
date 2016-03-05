@@ -18,8 +18,9 @@ before_script:
   - npm install -g chai
   - npm install -g mocha
   - npm install -g jshint
+  - npm install -g nodemon
 script:
-  - gulp style
+  - nodemon server.js
   - npm test
 
 # Customize when the notification emails are sent.

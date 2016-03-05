@@ -1,0 +1,28 @@
+# NodeJS + Mongodb
+language: node_js
+node_js:
+  - "5.1"
+  - "4.1"
+  - "0.12"
+services:
+  - mongodb
+
+# ENV variables
+env:
+  - SECRET=what?lol
+
+# Commands
+before_script:
+  - npm install
+  - npm install -g gulp
+  - npm install -g chai
+  - npm install -g mocha
+  - bower install
+script:
+  - gulp style
+  - npm test
+
+# Customize when the notification emails are sent.
+notifications:
+    on_success: never
+    on_failure: always

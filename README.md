@@ -1,5 +1,7 @@
 ## Node Project
 
+[![Build Status](https://travis-ci.org/kmassada/node.svg?branch=master)](https://travis-ci.org/kmassada/node)
+
 create folder directory
 ```
 mkdir node_server;

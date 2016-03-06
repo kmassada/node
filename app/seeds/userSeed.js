@@ -30,8 +30,5 @@ User.findOne({email: newUser.email}, function(err, user) {
 User.find({}, function(err, users) {
   if (err) {
     console.log(err);
-  } else {
-    // Object of all the users
-    console.log(users);
   }
 });

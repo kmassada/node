@@ -28,8 +28,5 @@ Venue.find({}, function(err, venues) {
   if (err) {
     console.log(err);
     throw err;
-  } else {
-    // Object of all the venues
-    console.log(venues);
   }
 });

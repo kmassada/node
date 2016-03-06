@@ -8,18 +8,21 @@ var userSchema = new Schema({
   fullName: String,
   email: {type: String, unique: true},
   password: {type: String},
+  picture: String,
   admin: Boolean,
   facebook: {
     id: Number,
     token: String,
-    name: String,
+    displayName: String,
     email: String,
+    profilePicture: String,
   },
   twitter: {
     id: Number,
     token: String,
     username: String,
     displayName: String,
+    profilePicture: String,
   },
 });
 
@@ -43,7 +46,19 @@ userSchema.pre('save', function(next) {
   user.password = user.generateHash(user.password);
 
   // Temp solution until twitter gives me email perms
-  user.fullName = user.firstName + user.lastName;
+  if (user.firstName && user.lastName) {
+    user.fullName = user.firstName + ' ' + user.lastName;
+  }
+
+  // Set profile pic url to
+  if (user.facebook && user.facebook.profilePicture) {
+    user.picture = user.facebook.profilePicture;
+  }else if (user.twitter && user.twitter.profilePicture) {
+    user.picture = twitter.profilePicture;
+  }else {
+    user.picture = 'http://placehold.it/48x48';
+  }
+
   next();
 });
 

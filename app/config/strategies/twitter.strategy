@@ -15,8 +15,33 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
   },
 
     // Facebook will send back the token and profile
-    function(token, refreshToken, profile, done) {
+    function(token, tokenSecret, profile, done) {
       var findOrCreateUser = function() {
+
+        var twitter = {};
+        console.log(profile);
+        twitter.id          = profile.id;
+        twitter.token       = token;
+        twitter.username    = profile.username;
+        twitter.displayName        = profile.displayName;
+        twitter.profilePicture     = profile.profileImageUrl;
+
+        // If can't find twitter name, find if their user exists
+        User.findOne({fullName: twitter.displayName}, function(err, userExist) {
+          if (userExist) {
+            userExist.twitter = twitter;
+            // Save our user to the database
+            console.log(userExist);
+            console.log('found');
+            userExist.save(function(err) {
+              if (err) {
+                throw err;
+              }
+            });
+            return done(null, userExist);
+          }
+        });
+
         User.findOne({ 'twitter.id': profile.id }, function(err, user) {
           // If there is an error, stop everything and return that
           // ie an error connecting to the database
@@ -29,33 +54,19 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
             return done(null, user); // User found, return that user
           }
 
-          // If there is no user found with that facebook id, create them
+          // If there is no user found with that twitter name, create them
           var thisUser = new User();
-          var twitterName = profile.displayName;
+          thisUser.fullName = twitter.displayName;
+          thisUser.twitter = twitter;
 
-          User.findOne({name:  twitterName}, function(err, user) {
-            if (user) {
-              thisUser = user;
+          thisUser.save(function(err) {
+            if (err) {
+              throw err;
             }
-
-            // Set all of the twitter information in our user model
-            console.log(profile);
-            // Set all of the user data that we need
-            thisUser.twitter.id          = profile.id;
-            thisUser.twitter.token       = token;
-            thisUser.twitter.username    = profile.username;
-            thisUser.twitter.displayName = profile.displayName;
-
-            // Save our user to the database
-            thisUser.save(function(err) {
-              if (err) {
-                throw err;
-              }
-            });
-
-            // If successful, return the new user
-            return done(null, thisUser);
           });
+
+          // If successful, return the new user
+          return done(null, thisUser);
         });
       };
       // Delay the execution of findOrCreateUser and execute

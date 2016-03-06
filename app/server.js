@@ -5,8 +5,8 @@ var dotenv = require('dotenv').config({silent: true});
 
 var app = express();
 var port = process.env.PORT || 3222;
-var apiPrefix = process.env.APP_API_VERSION || '/api/v1';
-var uri = process.env.MONGO_URI || 'mongodb://localhost/nunodeserver';
+var apiPrefix = process.env.APP_API_VERSION;
+var uri = process.env.MONGO_URI;
 
 require('./config/parser')(app);
 require('./config/database')(uri);

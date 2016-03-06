@@ -10,11 +10,11 @@ var newUser = new User({
   admin: true,
 });
 
-User.find(newUser, function(err, user) {
+User.findOne({email: newUser.email}, function(err, user) {
   if (err) {
     throw err;
   }
-  if (user.length === 0) {
+  if (!user) {
     // Save the user
     newUser.save(function(err) {
       if (err) {

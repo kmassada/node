@@ -1,6 +1,7 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var User             = require('../../models/user');
+var User   = require('../../models/user');
+var generateToken   = require('../../helpers/generateToken');
 
 // =========================================================================
 // FACEBOOK ================================================================
@@ -32,9 +33,8 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
         User.findOne({email:  facebook.email}, function(err, userExist) {
           if (userExist) {
             userExist.facebook = facebook;
+            userExist.token = generateToken(userExist);
             // Save our user to the database
-            console.log(userExist);
-            console.log('found');
             userExist.save(function(err) {
               if (err) {
                 throw err;
@@ -61,6 +61,7 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
           thisUser.facebook = facebook;
           thisUser.fullName = facebook.displayName;
           thisUser.email = facebook.email;
+          thisUser.token = generateToken(thisUser);
 
           thisUser.save(function(err) {
             if (err) {

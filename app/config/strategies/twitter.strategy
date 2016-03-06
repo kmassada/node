@@ -1,6 +1,7 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
-var User             = require('../../models/user');
+var User   = require('../../models/user');
+var generateToken   = require('../../helpers/generateToken');
 
 // =========================================================================
 // TWITTER =================================================================
@@ -30,9 +31,8 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
         User.findOne({fullName: twitter.displayName}, function(err, userExist) {
           if (userExist) {
             userExist.twitter = twitter;
+            userExist.token = generateToken(userExist);
             // Save our user to the database
-            console.log(userExist);
-            console.log('found');
             userExist.save(function(err) {
               if (err) {
                 throw err;
@@ -58,6 +58,7 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
           var thisUser = new User();
           thisUser.fullName = twitter.displayName;
           thisUser.twitter = twitter;
+          thisUser.token = generateToken(thisUser);
 
           thisUser.save(function(err) {
             if (err) {

@@ -41,6 +41,7 @@ app.use(apiPrefix + '/venues', require('./routes/venueRoutes'));
 app.use(apiPrefix + '/auth',  [require('./routes/authRoutes')]);
 app.use(apiPrefix + '/auth/twitter',  [require('./routes/twitterRoutes')]);
 app.use(apiPrefix + '/auth/facebook',  [require('./routes/facebookRoutes')]);
+app.use(apiPrefix + '/auth/me', [requireAuth, require('./routes/meRoutes')]);
 app.use(apiPrefix + '/users', [requireAuth, require('./routes/userRoutes')]);
 
 // Normal-routes

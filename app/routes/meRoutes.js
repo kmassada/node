@@ -1,11 +1,9 @@
 var express = require('express');
-var passport = require('passport');
-var meRouter = express.Router();
-var User = require('../models/user');
-var requireAuth = require('../config/auth');
 
-// /* GET Home Page */
-meRouter.route('/')
+var routes = function() {
+  var meRouter = express.Router();
+  // /* GET Home Page */
+  meRouter.route('/')
     .get(function(req, res) {
       // Return the information including token as JSON
       res.json({
@@ -14,4 +12,7 @@ meRouter.route('/')
         user: req.user,
       });
     });
-module.exports = meRouter;
+  return meRouter;
+};
+
+module.exports = routes;

@@ -1,6 +1,7 @@
 var jwt    = require('jsonwebtoken');
 var User   = require('../models/user');
 var keys = {secret: 'random sauce'};
+var secret = process.env.SECRET;
 
 var requireAuthentication = function requireAuthentication(req, res, next) {
 
@@ -12,7 +13,7 @@ var requireAuthentication = function requireAuthentication(req, res, next) {
 
     // Verifies secret and checks exp
     // wrap: superSecret in a cofig
-    jwt.verify(token, keys.secret , function(err, decoded) {
+    jwt.verify(token, secret , function(err, decoded) {
         if (err) {
           return res.json({
             success: false,
@@ -21,7 +22,20 @@ var requireAuthentication = function requireAuthentication(req, res, next) {
         }
         // If everything is good, save to request for use in other routes
         req.decoded = decoded;
-        next();
+        User.findOne({ token: token }, function(err, user) {
+          if (err) {
+            return next(err);
+          }
+          if (!user) {
+            return res.json({
+              success: false,
+              message: 'Failed to authenticate token.',
+            });
+          }
+          user.token = '';
+          req.user = user;
+          return next();
+        });
 
       });
 

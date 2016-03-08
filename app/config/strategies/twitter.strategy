@@ -1,13 +1,13 @@
-var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
-var User             = require('../../models/user');
+var User = require('../../models/user');
+var generateToken   = require('../../helpers/generateToken');
 
 // =========================================================================
 // TWITTER =================================================================
 // =========================================================================
 
 
-var passportFacebookFunction = function passportFacebookFunction(app) {
+var passportFacebookFunction = function passportFacebookFunction(passport) {
   passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTERAUTH_CONSUMERKEY,
     consumerSecret: process.env.TWITTERAUTH_CONSUMERSECRET,
@@ -15,10 +15,33 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
   },
 
     // Facebook will send back the token and profile
-    function(token, refreshToken, profile, done) {
+    function(token, tokenSecret, profile, done) {
       var findOrCreateUser = function() {
-        User.findOne({ 'twitter.id': profile.id }, function(err, user) {
 
+        var twitter = {};
+        console.log(profile);
+        twitter.id          = profile.id;
+        twitter.token       = token;
+        twitter.username    = profile.username;
+        twitter.displayName        = profile.displayName;
+        twitter.profilePicture     = profile.profileImageUrl;
+
+        // If can't find twitter name, find if their user exists
+        User.findOne({fullName: twitter.displayName}, function(err, userExist) {
+          if (userExist) {
+            userExist.twitter = twitter;
+            userExist.token = generateToken(userExist);
+            // Save our user to the database
+            userExist.save(function(err) {
+              if (err) {
+                throw err;
+              }
+            });
+            return done(null, userExist);
+          }
+        });
+
+        User.findOne({ 'twitter.id': profile.id }, function(err, user) {
           // If there is an error, stop everything and return that
           // ie an error connecting to the database
           if (err) {
@@ -29,26 +52,22 @@ var passportFacebookFunction = function passportFacebookFunction(app) {
           if (user) {
             return done(null, user); // User found, return that user
           }
-          // If there is no user, create them
-          var newUser                 = new User();
 
-          // Set all of the user data that we need
-          newUser.twitter.id          = profile.id;
-          newUser.twitter.token       = token;
-          newUser.twitter.username    = profile.username;
-          newUser.twitter.displayName = profile.displayName;
+          // If there is no user found with that twitter name, create them
+          var thisUser = new User();
+          thisUser.fullName = twitter.displayName;
+          thisUser.twitter = twitter;
+          thisUser.token = generateToken(thisUser);
 
-          // Save our user into the database
-          newUser.save(function(err) {
+          thisUser.save(function(err) {
             if (err) {
               throw err;
             }
-            return done(null, newUser);
           });
 
+          // If successful, return the new user
+          return done(null, thisUser);
         });
-
-
       };
       // Delay the execution of findOrCreateUser and execute
       // the method in the next tick of the event loop

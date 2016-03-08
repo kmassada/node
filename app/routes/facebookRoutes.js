@@ -1,41 +1,33 @@
 var express = require('express');
-var passport = require('passport');
-var authRouter = express.Router();
-var User = require('../models/user');
+var apiPrefix = process.env.APP_API_VERSION;
 
-// As with any middleware it is quintessential to call next()
-// if the user is authenticated
-var isAuthenticated = function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
-};
+var routes = function(passport) {
+  var authRouter = express.Router();
 
-/* Handle Login POST */
-authRouter.route('/')
+  /* Handle Login POST */
+  authRouter.route('/')
     .get(passport.authenticate('facebook', {
       scope: 'email',
     }));
 
-/* Handle callback GET */
-authRouter.route('/callback')
-    .get(passport.authenticate('facebook', {
-      successRedirect: '/profile',
-      failureRedirect: '/',
-    }));
+  /* Handle callback GET */
+  authRouter.route('/callback')
+      .get(passport.authenticate('facebook',
+        { session: false, failureRedirect: apiPrefix + '/auth/' }),
+      function(req, res) {
+        res.setHeader('x-access-token',  req.user.token);
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+        });
+      });
 
-/* Handle Logout */
-authRouter.route('/signout')
+  /* Handle Logout */
+  authRouter.route('/signout')
     .get(function(req, res) {
-      req.logout();
-      res.redirect('/');
+      res.redirect(apiPrefix + '/auth/signout');
     });
+  return authRouter;
+};
 
-/* GET Home Page */
-authRouter.route('/profile')
-    .get(isAuthenticated, function(req, res) {
-      // Res.json({user: req.user});
-    });
-
-module.exports = authRouter;
+module.exports = routes;

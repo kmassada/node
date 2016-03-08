@@ -8,7 +8,8 @@ var routes = function(passport) {
   /* Handle GET */
   authRouter.route('/')
     .get(function(req, res) {
-      return res.status(500).send('err');
+      res.setStatus = 500;
+      res.send('err');
     });
 
   /* Handle Login POST */
@@ -27,7 +28,8 @@ var routes = function(passport) {
       if (!req.error) {
         req.error = 'Something went majorly wrong!';
       }
-      return res.status(500).send(req);
+      res.setStatus = 500;
+      res.send(req);
     });
 
   /* Handle Registration POST */
@@ -46,7 +48,8 @@ var routes = function(passport) {
     if (!req.error) {
       req.error = 'Something went majorly wrong!';
     }
-    return res.status(500).send(req);
+    res.setStatus = 500;
+    res.send(req);
   });
 
   /* Handle Logout */
@@ -56,9 +59,11 @@ var routes = function(passport) {
       delete req.user.token;
       req.user.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
-        return res.status(200).send('logout');
+        res.setStatus = 200;
+        res.send('logout');
       });
     });
   return authRouter;

@@ -21,7 +21,8 @@ var routes = function(User) {
         if (err) {
           throw err;
         }
-        return res.status(201).send(newUser);
+        res.setStatus = 201;
+        res.send(newUser);
       });
     })
 
@@ -29,7 +30,8 @@ var routes = function(User) {
     .get(function(req, res) {
       User.find(function(err, users) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         return res.json(users);
       });
@@ -40,13 +42,15 @@ var routes = function(User) {
   userRouter.use ('/:userId', function(req, res, next) {
     User.findById(req.params.userId, function(err, user) {
       if (err) {
-        return res.status(500).send(err);
+        res.setStatus = 500;
+        res.send(err);
       }
       if (user) {
         req.user = user;
         next();
       }else {
-        return res.status(404).send('Object not found');
+        res.setStatus = 404;
+        res.send('Object not found');
       }
     });
   });
@@ -61,9 +65,11 @@ var routes = function(User) {
     .delete(function(req, res) {
       req.user.remove(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
-        return res.status(204).send('removed');
+        res.setStatus = 204;
+        res.send('removed');
       });
     })
 
@@ -78,7 +84,8 @@ var routes = function(User) {
       // Save the user
       req.user.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         res.json(req.user);
       });
@@ -96,7 +103,8 @@ var routes = function(User) {
       // Save the user
       req.user.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         res.json(req.user);
       });

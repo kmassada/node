@@ -14,9 +14,11 @@ var routes = function(Venue) {
       // Save the venue and check for errors
       newVenue.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
-        return res.status(201).send(newVenue);
+        res.setStatus = 201;
+        res.send(newVenue);
       });
     })
 
@@ -28,7 +30,8 @@ var routes = function(Venue) {
       }
       Venue.find(query,function(err, venues) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         return res.json(venues);
       });
@@ -38,14 +41,16 @@ var routes = function(Venue) {
   venueRouter.use('/:venueId',function(req, res, next) {
     Venue.findById(req.params.venueId, function(err, venue) {
       if (err) {
-        return res.status(500).send(err);
+        res.setStatus = 500;
+        res.send(err);
       }
       if (venue) {
         req.venue = venue;
         next();
       }else {
 
-        return res.status(404).send('Object not found');
+        res.setStatus = 404;
+        res.send('Object not found');
       }
     });
   });
@@ -61,9 +66,11 @@ var routes = function(Venue) {
     .delete(function(req, res) {
       req.venue.remove(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
-        return res.status(204).send('removed');
+        res.setStatus = 204;
+        res.send('removed');
       });
     })
 
@@ -78,7 +85,8 @@ var routes = function(Venue) {
       // Save the venue
       req.venue.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         res.json(req.venue);
       });
@@ -95,7 +103,8 @@ var routes = function(Venue) {
       // Save the venue
       req.venue.save(function(err) {
         if (err) {
-          return res.status(500).send(err);
+          res.setStatus = 500;
+          res.send(err);
         }
         res.json(req.venue);
       });

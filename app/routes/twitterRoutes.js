@@ -23,8 +23,7 @@ var routes = function(passport) {
   /* Handle Logout */
   authRouter.route('/signout')
     .get(function(req, res) {
-      req.user.token = '';
-      res.redirect(apiPrefix);
+      res.redirect(apiPrefix + '/auth/signout');
     });
   return authRouter;
 };

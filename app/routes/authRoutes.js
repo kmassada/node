@@ -1,49 +1,67 @@
 var express = require('express');
-var authRouter = express.Router();
-var bcrypt = require('bcrypt-nodejs');
-var jwt    = require('jsonwebtoken');
-var User = require('../models/user');
-var secret = process.env.SECRET;
+var apiPrefix = process.env.APP_API_VERSION;
+var requireAuth = require('../config/auth');
 
-authRouter.route('/')
+var routes = function(passport) {
+  var authRouter = express.Router();
 
-    // POST /auth/
-    .post(function(req, res) {
-      // Use our user model to find the user we want
-      // find the user
-      User.findOne({email: req.body.email}, function(err, user) {
-        if (!user) {
-          res.json({
-            success: false,
-            message: 'Authentication failed. User not found.',
-          });
-        } else if (user) {
-
-          // Check if password matches
-          console.log(user.password);
-          console.log(req.body.password);
-          if (!user.validPassword(req.body.password)) {
-            res.json({
-              success: false,
-              message: 'Authentication failed. Wrong password.',
-            });
-          } else {
-
-            // If user is found and password is right
-            // create a token
-            var token = jwt.sign(user, secret, {
-              expiresInSeconds: 43200, // Expires in 24 hours
-            });
-
-            // Return the information including token as JSON
-            res.json({
-              success: true,
-              message: 'Enjoy your token!',
-              token: token,
-            });
-          }
-        }
-      });
+  /* Handle GET */
+  authRouter.route('/')
+    .get(function(req, res) {
+      return res.status(500).send('err');
     });
 
-module.exports = authRouter;
+  /* Handle Login POST */
+  authRouter.route('/login')
+    .post(function(req, res, next) {
+      passport.authenticate('login', function(err, user, info) {
+        if (err) { return next(err); }
+        if (!user) { return next(info); }
+        res.setHeader('x-access-token',  user.token);
+        return res.json({
+          success: true,
+          message: 'Enjoy your token!',
+        });
+      })(req, res, next);
+    }, function(req, res, next) {
+      if (!req.error) {
+        req.error = 'Something went majorly wrong!';
+      }
+      return res.status(500).send(req);
+    });
+
+  /* Handle Registration POST */
+  authRouter.route('/signup')
+  .post(function(req, res, next) {
+    passport.authenticate('signup', function(err, user, info) {
+      if (err) { return next(err); }
+      if (!user) { return next(info); }
+      res.setHeader('x-access-token',  user.token);
+      return res.json({
+        success: true,
+        message: 'Enjoy your token!',
+      });
+    })(req, res, next);
+  }, function(req, res, next) {
+    if (!req.error) {
+      req.error = 'Something went majorly wrong!';
+    }
+    return res.status(500).send(req);
+  });
+
+  /* Handle Logout */
+  authRouter.route('/signout')
+    .get(requireAuth)
+    .get(function(req, res) {
+      delete req.user.token;
+      req.user.save(function(err) {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.status(200).send('logout');
+      });
+    });
+  return authRouter;
+};
+
+module.exports = routes;

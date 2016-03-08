@@ -1,6 +1,5 @@
-var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
-var User   = require('../../models/user');
+var User = require('../../models/user');
 var generateToken   = require('../../helpers/generateToken');
 
 // =========================================================================
@@ -8,7 +7,7 @@ var generateToken   = require('../../helpers/generateToken');
 // =========================================================================
 
 
-var passportFacebookFunction = function passportFacebookFunction(app) {
+var passportFacebookFunction = function passportFacebookFunction(passport) {
   passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTERAUTH_CONSUMERKEY,
     consumerSecret: process.env.TWITTERAUTH_CONSUMERSECRET,

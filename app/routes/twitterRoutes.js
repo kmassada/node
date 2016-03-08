@@ -1,16 +1,17 @@
 var express = require('express');
-var passport = require('passport');
-var authRouter = express.Router();
 var apiPrefix = process.env.APP_API_VERSION;
 
-/* Handle Login POST */
-authRouter.route('/')
-    .get(passport.authenticate('twitter'));
+var routes = function(passport) {
+  var authRouter = express.Router();
 
-/* Handle callback GET */
-authRouter.route('/callback')
-    .get(passport.authenticate('twitter',
-      { session: false, failureRedirect: apiPrefix + '/auth/' }),
+  /* Handle Login POST */
+  authRouter.route('/')
+      .get(passport.authenticate('twitter'));
+
+  /* Handle callback GET */
+  authRouter.route('/callback')
+      .get(passport.authenticate('twitter',
+        { session: false, failureRedirect: apiPrefix + '/auth/' }),
       function(req, res) {
         res.setHeader('x-access-token',  req.user.token);
         res.json({
@@ -19,11 +20,13 @@ authRouter.route('/callback')
         });
       });
 
-/* Handle Logout */
-authRouter.route('/signout')
+  /* Handle Logout */
+  authRouter.route('/signout')
     .get(function(req, res) {
       req.user.token = '';
       res.redirect(apiPrefix);
     });
+  return authRouter;
+};
 
-module.exports = authRouter;
+module.exports = routes;

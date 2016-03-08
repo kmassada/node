@@ -1,7 +1,4 @@
-var User = require('../models/user');
-var passport = require('passport');
-
-var passportFunction = function passportFunction(app) {
+var passportFunction = function passportFunction(app,passport,User) {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser(function(user, done) {
@@ -14,7 +11,8 @@ var passportFunction = function passportFunction(app) {
     });
   });
 
-  require('./strategies/facebook.strategy')(app);
-  require('./strategies/twitter.strategy')(app);
+  require('./strategies/facebook.strategy')(passport);
+  require('./strategies/twitter.strategy')(passport);
+  require('./strategies/local.strategy')(passport);
 };
 module.exports = passportFunction;

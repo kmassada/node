@@ -1,11 +1,12 @@
 var express = require('express');
-// Get an instance of the express Router
-var userRouter = express.Router();
-var User = require('../models/user');
 
-userRouter.route('/')
+var routes = function(User) {
+  // Get an instance of the express Router
+  var userRouter = express.Router();
 
-    // POST /users
+  userRouter.route('/')
+
+      // POST /users
     .post(function(req, res) {
       // Create a new instance of the User model
       var newUser = new User();
@@ -38,9 +39,9 @@ userRouter.route('/')
       });
     });
 
-userRouter.route('/:userId')
+  userRouter.route('/:userId')
 
-    // GET /users/:userId
+      // GET /users/:userId
     .get(function(req, res) {
       User.findById(req.params.userId, function(err, user) {
         if (err) {
@@ -115,5 +116,7 @@ userRouter.route('/:userId')
         });
       });
     });
+  return userRouter;
+};
 
-module.exports = userRouter;
+module.exports = routes;

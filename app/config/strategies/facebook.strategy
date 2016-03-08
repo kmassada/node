@@ -1,6 +1,5 @@
-var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var User   = require('../../models/user');
+var User = require('../../models/user');
 var generateToken   = require('../../helpers/generateToken');
 
 // =========================================================================
@@ -8,7 +7,7 @@ var generateToken   = require('../../helpers/generateToken');
 // =========================================================================
 
 
-var passportFacebookFunction = function passportFacebookFunction(app) {
+var passportFacebookFunction = function passportFacebookFunction(passport) {
   passport.use(new FacebookStrategy({
       // Pull in our app id and secret
       clientID: process.env.FACEBOOKAUTH_CLIENTID,

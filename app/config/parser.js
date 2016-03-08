@@ -8,6 +8,11 @@ var parserFunction = function parserFunction(app) {
   app.use(bodyParser.urlencoded({extended: true}));
   // For parsing application/json
   app.use(bodyParser.json());
+  app.use(session({
+    secret: 'library',
+    resave: true,
+    saveUninitialized: true,
+  }));
   app.use(cookieParser());
 };
 module.exports = parserFunction;

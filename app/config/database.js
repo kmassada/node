@@ -1,18 +1,18 @@
 var mongoose     = require('mongoose');
 
-var databaseFunction = function databaseFunction(uri) {
+var databaseFunction = function databaseFunction(uri, log) {
   mongoose.connect(uri, function(err, res) {
     if (err) {
-      console.log ('ERROR connecting to: ' + uri + '. ' + err);
+      log.info('ERROR connecting to: ' + uri + '. ' + err);
     } else {
-      console.log ('Succeeded connected to: ' + uri);
+      log.info('Succeeded connected to: ' + uri);
     }
   });
 
   var db = mongoose.connection;
   db.on('error', console.error);
   db.once('open', function() {
-    console.log ('Once: ' + uri);
+    log.info('Once: ' + uri);
     require('../seeds/venueSeed');
     require('../seeds/userSeed');
   });

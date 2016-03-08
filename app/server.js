@@ -8,6 +8,7 @@ var app = express();
 var port = process.env.PORT || 3222;
 var apiPrefix = process.env.APP_API_VERSION;
 var uri = process.env.MONGO_URI;
+var log = require('./config/log');
 
 // Models
 var Venue = require('./models/venue');
@@ -15,7 +16,7 @@ var User = require('./models/user');
 
 // Configs
 require('./config/parser')(app);
-require('./config/database')(uri);
+require('./config/database')(uri,log);
 require('./config/passport')(app, passport, User);
 
 // CORS
@@ -29,10 +30,10 @@ var requireAuth = require('./config/auth');
 
 // Catch-all
 app.use(function timeLog(req, res, next) {
-  console.log('Location: ', req.url);
-  console.log('Data: ', req.body);
-  console.log('Method: ', req.method);
-  console.log('Time: ', Date.now());
+  log.info('Location: ', req.url);
+  log.info('Data: ', req.body);
+  log.info('Method: ', req.method);
+  log.info('Time: ', Date.now());
   next();
 });
 
@@ -62,7 +63,5 @@ router.get('/', function(req, res) {
 });
 
 // Errors
-require('./config/error')(app);
-require('./config/log');
-
+require('./config/error')(app, log);
 app.listen(port);

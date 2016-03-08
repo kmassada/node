@@ -1,117 +1,106 @@
 var express = require('express');
-// Get an instance of the express Router
-var venueRouter = express.Router();
-var Venue = require('../models/venue');
 
-venueRouter.route('/')
+var routes = function(Venue) {
+  // Get an instance of the express Router
+  var venueRouter = express.Router();
+
+  venueRouter.route('/')
 
     // POST /venues
     .post(function(req, res) {
       // Create a new instance of the Venue model
-      var newVenue = new Venue();
-
-      // Set the venue's local credentials
-      newVenue.name = req.body.name;
-      newVenue.location = req.body.location;
-      newVenue.category = req.body.category;
+      var newVenue = new Venue(req.body);
 
       // Save the venue and check for errors
       newVenue.save(function(err) {
         if (err) {
-          return res.json({success: false, message: err});
+          return res.status(500).send(err);
         }
-        return res.json({
-          success: true,
-          message: 'Object created!',
-        });
+        return res.status(201).send(newVenue);
       });
     })
 
     // GET /venues
     .get(function(req, res) {
-      Venue.find(function(err, venues) {
+      var query = {};
+      if (req.query.category) {
+        query.category = req.query.category;
+      }
+      Venue.find(query,function(err, venues) {
         if (err) {
-          return res.json({success: false, message: err});
+          return res.status(500).send(err);
         }
         return res.json(venues);
       });
     });
 
-venueRouter.route('/:venueId')
+  // Middleware.
+  venueRouter.use('/:venueId',function(req, res, next) {
+    Venue.findById(req.params.venueId, function(err, venue) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      if (venue) {
+        req.venue = venue;
+        next();
+      }else {
+
+        return res.status(404).send('Object not found');
+      }
+    });
+  });
+
+  venueRouter.route('/:venueId')
 
     // GET /venues/:venueId
     .get(function(req, res) {
-      Venue.findById(req.params.venueId, function(err, venue) {
-        if (err) {
-          return res.json({success: false, message: err});
-        }
-        if (!venue) {
-          return res.json({
-            success: false,
-            message: 'Object not found',
-          });
-        }
-        return res.json(venue);
-      });
+      res.json(req.venue);
     })
 
     // DELETE /venues/:venueId
     .delete(function(req, res) {
-      Venue.findById(req.params.venueId, function(err, venue) {
+      req.venue.remove(function(err) {
         if (err) {
-          return res.json({success: false, message: err});
+          return res.status(500).send(err);
         }
-        if (!venue) {
-          return res.json({
-            success: false,
-            message: 'Object not found',
-          });
-        }
+        return res.status(204).send('removed');
+      });
+    })
 
-        // Delete item
-        venue.remove(function(err) {
-          if (err) {
-            return res.json({success: false, message: err});
-          }
-          return res.json({
-            success: true,
-            message: 'Object deleted!',
-          });
-        });
+    // PATH /venues/:venueId
+    .patch(function(req, res) {
+      if (req.body._id) {
+        delete req.body._id;
+      }
+      for (var p in req.body) {
+        req.venue[p] = req.body[p];
+      }
+      // Save the venue
+      req.venue.save(function(err) {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        res.json(req.venue);
       });
     })
 
     // PUT /venues/:venueId)
     .put(function(req, res) {
-      // Use our venue model to find the venue we want
-      Venue.findById(req.params.venueId, function(err, venue) {
+
+      // Update the venues info
+      req.venue.name = req.body.name;
+      req.venue.location = req.body.location;
+      req.venue.category = req.body.category;
+
+      // Save the venue
+      req.venue.save(function(err) {
         if (err) {
-          return res.json({success: false, message: err});
+          return res.status(500).send(err);
         }
-        if (!venue) {
-          return res.json({
-            success: false,
-            message: 'Object not found',
-          });
-        }
-        // Update the venues info
-        venue.name = req.body.name ?  req.body.name :  venue.name;
-        venue.location = req.body.location ?  req.body.location :  venue.location;
-        venue.category = req.body.category ?  req.body.category :  venue.category;
-
-        console.log(venue);
-
-        // Save the venue
-        venue.save(function(err) {
-          if (err) {
-            return res.json({success: false, message: err});
-          }
-          return res.json({
-            success: true,
-            message: 'Object updated!',
-          });
-        });
+        res.json(req.venue);
       });
     });
+  return venueRouter;
+};
 
-module.exports = venueRouter;
+module.exports = routes;

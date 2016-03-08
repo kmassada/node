@@ -21,7 +21,6 @@ var passportFacebookFunction = function passportFacebookFunction(passport) {
       var findOrCreateUser = function() {
 
         var facebook = {};
-        console.log(profile);
         facebook.id    = profile.id;
         facebook.token = token;
         facebook.displayName  = profile.displayName;

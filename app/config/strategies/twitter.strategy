@@ -19,7 +19,6 @@ var passportFacebookFunction = function passportFacebookFunction(passport) {
       var findOrCreateUser = function() {
 
         var twitter = {};
-        console.log(profile);
         twitter.id          = profile.id;
         twitter.token       = token;
         twitter.username    = profile.username;

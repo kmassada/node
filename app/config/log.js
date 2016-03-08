@@ -10,5 +10,4 @@ var log = bunyan.createLogger({
     },
   ],
 });
-log.info('hi');
-log.warn({lang: 'fr'}, 'au revoir');
+module.exports = log;

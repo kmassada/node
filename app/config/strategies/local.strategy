@@ -3,7 +3,6 @@ var User = require('../../models/user');
 var generateToken   = require('../../helpers/generateToken');
 
 var passportLocalFunction = function passportLocalFunction(passport) {
-  console.log('passport');
   passport.use('login', new LocalStrategy({
     // Allows us to pass back the entire request to the callback
     usernameField: 'email',

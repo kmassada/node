@@ -30,7 +30,9 @@
     "passport-facebook": "^2.1.0",
     "passport-twitter": "^1.0.4",
     "request": "^2.69.0",
-    "superagent": "^1.7.2"
+    "simon": "^0.2.3",
+    "superagent": "^1.7.2",
+    "supertest": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",

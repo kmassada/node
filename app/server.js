@@ -61,6 +61,8 @@ router.get('/', function(req, res) {
   res.json({success: true, message: 'API'});
 });
 
+// Errors
+require('./config/error')(app);
 require('./config/log');
 
 app.listen(port);

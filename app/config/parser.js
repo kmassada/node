@@ -9,10 +9,5 @@ var parserFunction = function parserFunction(app) {
   // For parsing application/json
   app.use(bodyParser.json());
   app.use(cookieParser());
-  app.use(session({
-    secret: 'library',
-    resave: true,
-    saveUninitialized: true,
-  }));
 };
 module.exports = parserFunction;

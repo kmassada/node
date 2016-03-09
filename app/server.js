@@ -8,7 +8,7 @@ var app = express();
 var port = process.env.PORT || 3222;
 var apiPrefix = process.env.APP_API_VERSION;
 var uri = process.env.MONGO_URI;
-var log = require('./config/log');
+var log = require('./config/log')('MAIN');
 
 // Models
 var Venue = require('./models/venue');

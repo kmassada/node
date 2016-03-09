@@ -3,12 +3,13 @@ var cors = require('cors');
 var morgan = require('morgan');
 var passport = require('passport');
 var dotenv = require('dotenv').config({silent: true});
+var request = require('request');
 
 var app = express();
 var port = process.env.PORT || 3222;
 var apiPrefix = process.env.APP_API_VERSION;
 var uri = process.env.MONGO_URI;
-var log = require('./config/log');
+var log = require('./config/log')('MAIN');
 
 // Models
 var Venue = require('./models/venue');
@@ -39,6 +40,7 @@ app.use(function timeLog(req, res, next) {
 
 // Define Routes
 venueRoutes = require('./routes/venueRoutes')(Venue);
+venueSearchRoutes = require('./routes/venueSearchRoutes')(Venue);
 userRoutes = require('./routes/userRoutes')(User);
 // Auth Routes
 meRoutes = require('./routes/meRoutes');
@@ -48,7 +50,6 @@ facebookRoutes = require('./routes/facebookRoutes')(passport);
 
 // Normal Routes
 app.use('/', router);
-app.use(apiPrefix + '/venues', [venueRoutes]);
 
 // Routes that need auth
 app.use(apiPrefix + '/auth',  [authRoutes]);
@@ -56,11 +57,16 @@ app.use(apiPrefix + '/auth/twitter',  [twitterRoutes]);
 app.use(apiPrefix + '/auth/facebook',  [facebookRoutes]);
 app.use(apiPrefix + '/auth/me', [requireAuth, meRoutes]);
 app.use(apiPrefix + '/users', [requireAuth, userRoutes]);
+app.use(apiPrefix + '/venues/search', [requireAuth, venueSearchRoutes]);
+app.use(apiPrefix + '/venues', [venueRoutes]);
 
 // Normal-routes
 router.get('/', function(req, res) {
   res.json({success: true, message: 'API'});
 });
+
+// Services
+require('./services/GoogleMapsClient')(request);
 
 // Errors
 require('./config/error')(app, log);

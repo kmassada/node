@@ -66,7 +66,7 @@ router.get('/', function(req, res) {
 });
 
 // Services
-require('./services/googleMapsClient')(request);
+require('./services/GoogleMapsClient')(request);
 
 // Errors
 require('./config/error')(app, log);

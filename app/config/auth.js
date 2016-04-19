@@ -6,7 +6,7 @@ var secret = process.env.SECRET;
 var requireAuthentication = function requireAuthentication(req, res, next) {
 
   // Check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.body.token || req.query.token || req.headers['X-Access-Token'];
 
   // Decode token
   if (token) {

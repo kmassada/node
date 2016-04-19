@@ -21,7 +21,11 @@ require('./config/database')(uri,log);
 require('./config/passport')(app, passport, User);
 
 // CORS
-app.use(cors());
+var corsOptions = {
+  allowedHeaders: ['X-Access-Token','Content-Type'],
+  exposedHeaders: ['X-Access-Token','Content-Type'],
+};
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 
 // Get an instance of the express Router

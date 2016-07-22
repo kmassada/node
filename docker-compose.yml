@@ -6,9 +6,11 @@ services:
      - "3222:3222"
     volumes:
      - .:/usr/src/app
+    environment:
+     - VIRTUAL_HOST=api.packet.tadbit.io
     depends_on:
      - mongo
   mongo:
     image: mongo:latest
     ports:
-     - "32768:27017"
+     - "27017:27017"

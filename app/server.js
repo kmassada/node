@@ -65,7 +65,7 @@ app.use(apiPrefix + '/venues/search', [requireAuth, venueSearchRoutes]);
 app.use(apiPrefix + '/venues', [venueRoutes]);
 
 // Normal-routes
-router.get('/', function(req, res) {
+router.get(apiPrefix + '/', function(req, res) {
   res.json({success: true, message: 'API'});
 });
 

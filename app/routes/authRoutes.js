@@ -9,7 +9,9 @@ var routes = function(passport) {
   authRouter.route('/')
     .get(function(req, res) {
       res.setStatus = 500;
-      res.send('err');
+      res.json({
+        errors: [{status: 'not funny'}],
+      });
     });
 
   /* Handle Login POST */

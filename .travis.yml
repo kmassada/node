@@ -1,9 +1,8 @@
 # NodeJS + Mongodb
 language: node_js
 node_js:
-  - "5.1"
-  - "4.1"
-  - "0.12"
+  - "6.5"
+  - "6.1"
 services:
   - mongodb
 
@@ -30,5 +29,4 @@ notifications:
 
 matrix:
   allow_failures:
-    - node_js: "4.1"
-    - node_js: "0.12"
+    - node_js: "6.1"

@@ -5,17 +5,24 @@ var nodemon = require('gulp-nodemon');
 
 var jsFiles = ['app/**/*.js', '!gulpfile.js'];
 
-gulp.task('style', function() {
+gulp.task('jshint', function() {
   return gulp.src(jsFiles)
       .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish', {
-          verbose: true,
-        }))
-        .pipe(jscs())
-        .pipe(jscs.reporter());
+      .pipe(jshint.reporter('jshint-stylish', {
+        verbose: true,
+      }));
 });
 
-gulp.task('serve', [], function() {
+gulp.task('jscs', function() {
+  return gulp.src('app/server.js')
+  .pipe(jscs())
+  .pipe(jscs.reporter());
+});
+gulp.task('js-watch', ['jscs', 'jshint'], function(done) {
+  done();
+});
+
+gulp.task('serve', function() {
   var options = {
     script: 'app/server.js',
     delayTime: 1,
@@ -30,3 +37,8 @@ gulp.task('serve', [], function() {
       console.log('Restarting');
     });
 });
+
+
+gulp.watch(jsFiles, ['js-watch']);
+
+gulp.task('default', ['serve']);

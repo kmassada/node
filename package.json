@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test/spec --verbose",
-    "start": "node ./app/server.js"
+    "start": "nodemon -L ./app/server.js"
   },
   "author": "Kenneth Massada",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
-    "bunyan": "^1.7.1",
+    "bunyan": "^1.8.0",
     "bunyan-format": "^0.2.1",
     "chai": "^3.5.0",
     "cookie-parser": "^1.4.1",
@@ -24,27 +24,30 @@
     "jshint": "^2.9.1",
     "jsonwebtoken": "^5.7.0",
     "mocha": "^2.4.5",
-    "mongoose": "^4.4.6",
+    "mongoose": "^4.4.8",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "pug": "^2.0.0-beta6",
     "request": "^2.69.0",
     "simon": "^0.2.3",
-    "superagent": "^1.7.2",
-    "supertest": "^1.2.0"
+    "superagent": "^1.8.2",
+    "supertest": "^1.2.0",
+    "wiredep": "^3.0.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.14.0",
     "chai": "^3.4.1",
-    "mocha": "^2.3.4",
-    "superagent": "^1.6.1",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.6",
-    "jshint": "^2.8.0",
+    "gulp": "^3.9.1",
     "gulp-jscs": "^3.0.2",
     "gulp-jshint": "^2.0.0",
-    "jshint-stylish": "^2.1.0"
+    "gulp-nodemon": "^2.0.6",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
+    "mocha": "^2.3.4",
+    "superagent": "^1.6.1"
   },
   "repository": {
     "type": "git",

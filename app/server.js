@@ -21,7 +21,11 @@ require('./config/database')(uri,log);
 require('./config/passport')(app, passport, User);
 
 // CORS
-app.use(cors());
+var corsOptions = {
+  allowedHeaders: ['X-Access-Token','Content-Type'],
+  exposedHeaders: ['X-Access-Token','Content-Type'],
+};
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 
 // Get an instance of the express Router
@@ -61,7 +65,7 @@ app.use(apiPrefix + '/venues/search', [requireAuth, venueSearchRoutes]);
 app.use(apiPrefix + '/venues', [venueRoutes]);
 
 // Normal-routes
-router.get('/', function(req, res) {
+router.get(apiPrefix + '/', function(req, res) {
   res.json({success: true, message: 'API'});
 });
 

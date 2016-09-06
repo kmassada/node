@@ -1,0 +1,17 @@
+#%RAML 0.8
+---
+title: Tadbit Node API
+baseUri: http://tadbit.io/api/{version}
+version: v1
+/:
+  get:
+    description: Enter Root
+    responses:
+      200:
+          body:
+            application/json:
+              example: |
+                {
+                  "success": true,
+                  "message": "API"
+                }

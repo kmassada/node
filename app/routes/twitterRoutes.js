@@ -13,7 +13,7 @@ var routes = function(passport) {
       .get(passport.authenticate('twitter',
         { session: false, failureRedirect: apiPrefix + '/auth/' }),
       function(req, res) {
-        res.setHeader('x-access-token',  req.user.token);
+        res.setHeader('X-Access-Token',  req.user.token);
         res.json({
           success: true,
           message: 'Enjoy your token!',

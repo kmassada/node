@@ -1,0 +1,16 @@
+version: '2'
+services:
+  api:
+    build: .
+    ports:
+     - "3222:3222"
+    volumes:
+     - .:/usr/src/app
+    environment:
+     - VIRTUAL_HOST=api.packet.tadbit.io
+    depends_on:
+     - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+     - "27017:27017"

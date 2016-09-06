@@ -9,7 +9,9 @@ var routes = function(passport) {
   authRouter.route('/')
     .get(function(req, res) {
       res.setStatus = 500;
-      res.send('err');
+      res.json({
+        errors: [{status: 'not funny'}],
+      });
     });
 
   /* Handle Login POST */
@@ -18,7 +20,7 @@ var routes = function(passport) {
       passport.authenticate('login', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) { return next(info); }
-        res.setHeader('x-access-token',  user.token);
+        res.setHeader('X-Access-Token',  user.token);
         return res.json({
           success: true,
           message: 'Enjoy your token!',
@@ -38,7 +40,7 @@ var routes = function(passport) {
     passport.authenticate('signup', function(err, user, info) {
       if (err) { return next(err); }
       if (!user) { return next(info); }
-      res.setHeader('x-access-token',  user.token);
+      res.setHeader('X-Access-Token',  user.token);
       return res.json({
         success: true,
         message: 'Enjoy your token!',

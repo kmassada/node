@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test/spec --verbose",
-    "start": "node ./app/server.js"
+    "start": "nodemon -L ./app/server.js"
   },
   "author": "Kenneth Massada",
   "license": "ISC",
@@ -30,6 +30,7 @@
     "passport-facebook": "^2.1.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "pug": "^2.0.0-beta6",
     "request": "^2.69.0",
     "simon": "^0.2.3",
     "superagent": "^1.8.2",
@@ -37,15 +38,16 @@
     "wiredep": "^3.0.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.14.0",
     "chai": "^3.4.1",
-    "mocha": "^2.3.4",
-    "superagent": "^1.6.1",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.6",
-    "jshint": "^2.8.0",
+    "gulp": "^3.9.1",
     "gulp-jscs": "^3.0.2",
     "gulp-jshint": "^2.0.0",
-    "jshint-stylish": "^2.1.0"
+    "gulp-nodemon": "^2.0.6",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
+    "mocha": "^2.3.4",
+    "superagent": "^1.6.1"
   },
   "repository": {
     "type": "git",
